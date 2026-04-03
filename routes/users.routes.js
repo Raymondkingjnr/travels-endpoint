@@ -1,8 +1,10 @@
 import {Router} from 'express';
+import {getAllUsers, getUser} from "../controllers/users.contollers.js";
+import authorise from "../middlewares/auth.middleware.js";
 
 const userRouter = Router();
 
-userRouter.get('/', (res, req) => res.send({ message: 'users', body: req.body}))
-userRouter.get('/:id', (res, req) => res.send({ message: 'user by id', body: req.body}))
+userRouter.get('/', getAllUsers)
+userRouter.get('/:id', authorise, getUser)
 
 export default userRouter;

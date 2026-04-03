@@ -1,6 +1,6 @@
 import express from 'express';
 import cookieParser from "cookie-parser";
-import {PORT, SERVER_URL} from "./config/env.js";
+import {PORT} from "./config/env.js";
 import connectMongoDB from "./database/mongodb.js";
 import authRoutes from "./routes/auth.routes.js";
 import usersRoutes from "./routes/users.routes.js";
@@ -9,18 +9,16 @@ import cors from "cors";
 
 const app = express();
 
-const allowedOrigins = [
-    "http://localhost:3000",
-    "https://golobal-travels.vercel.app/",
-    SERVER_URL
-].filter(Boolean);
-
-app.use(cors({
-    origin: allowedOrigins,
+const corsOptions = {
+    // Reflect request origin so both local and hosted clients can access the API
+    origin: true,
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"]
-}));
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 
 app.use(express.json());

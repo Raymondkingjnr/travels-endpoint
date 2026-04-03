@@ -10,7 +10,8 @@ import cors from "cors";
 const app = express();
 
 const allowedOrigins = [
-    "http://localhost:3000", // local frontend
+    "http://localhost:3000",
+    "https://golobal-travels.vercel.app/",
     SERVER_URL
 ].filter(Boolean);
 

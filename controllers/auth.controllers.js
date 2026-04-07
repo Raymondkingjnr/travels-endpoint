@@ -63,6 +63,7 @@ export const signUp = async (req, res, next) => {
         if (existingUser) {
             const error = new Error("User already exists");
             error.status = 409;
+            throw error;
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -108,11 +109,13 @@ export const reSendEmailVerification = async (req, res, next) => {
         if (!user) {
             const error = new Error("User not found");
             error.status = 404;
+            throw error;
         }
 
         if (user.isVerified) {
             const error = new Error("Email is already verified");
             error.status = 400;
+            throw error;
         }
 
         const verificationToken = generateVerificationToken();
@@ -147,6 +150,7 @@ export const verifyEmail = async (req, res, next) => {
         if (!user) {
             const error = new Error("Invalid or expired verification token");
             error.status = 400;
+            throw error;
         }
 
         user.isVerified = true;
@@ -171,6 +175,7 @@ export const signIn = async (req, res, next) => {
         if (!user) {
             const error = new Error("invalid credentials");
             error.status = 404;
+            throw error;
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -178,11 +183,13 @@ export const signIn = async (req, res, next) => {
         if (!isPasswordValid) {
             const error = new Error("Invalid password");
             error.status = 400;
+            throw error;
         }
 
         if (!user.isVerified) {
             const error = new Error("Please verify your email before logging in");
             error.status = 403;
+            throw error;
         }
 
         const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
@@ -222,6 +229,7 @@ export const forgotPassword = async (req, res, next) => {
         if (!user) {
             const error = new Error("User not found");
             error.status = 404;
+            throw error;
         }
 
         const resetPasswordToken = generateVerificationToken();
@@ -256,6 +264,7 @@ export const recoverPassword = async (req, res, next) => {
         if (!user) {
             const error = new Error("Invalid or expired reset token");
             error.status = 400;
+            throw error;
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -283,18 +292,21 @@ export const changePassword = async (req,res, next) => {
         if (!currentPassword || !newPassword) {
            const error = new Error("current password and newPassword is required");
            error.status = 400;
+           throw error;
         }
         const user = await User.findById(userId);
 
         if (!user) {
             const error = new Error("User not found");
             error.status = 404;
+            throw error;
         }
         const isMatch = await bcrypt.compare(currentPassword, user.password);
 
         if (!isMatch) {
             const error = new Error("Invalid current password");
             error.status = 400;
+            throw error;
         }
 
         const isSame = await bcrypt.compare(newPassword, user.password);

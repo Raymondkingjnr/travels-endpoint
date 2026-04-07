@@ -1,6 +1,6 @@
 import express from 'express';
 import cookieParser from "cookie-parser";
-import {PORT, SERVER_URL} from "./config/env.js";
+import {PORT} from "./config/env.js";
 import connectMongoDB from "./database/mongodb.js";
 import authRoutes from "./routes/auth.routes.js";
 import usersRoutes from "./routes/users.routes.js";
@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
 app.use(errorMiddleware)
 
 app.listen(PORT, async () =>{
-    console.log(`Listening on  ${SERVER_URL}`);
+    console.log(`Listening on  http://localhost:${PORT}`);
     await connectMongoDB()
 })
 

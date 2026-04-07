@@ -6,5 +6,6 @@ const userRouter = Router();
 
 userRouter.get('/', getAllUsers)
 userRouter.get('/:id', authorise, getUser)
+userRouter.post('/edit/:id', authorise, (req, res) => res.send(req.body))
 
 export default userRouter;

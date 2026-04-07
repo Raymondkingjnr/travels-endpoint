@@ -22,6 +22,26 @@ const userSchema = new mongoose.Schema({
         required: [true, "Please enter a valid password"],
         minLength: 6,
 
+    },
+    isVerified: {
+       type: Boolean,
+       default: false,
+    },
+    verificationToken: {
+       type: String,
+       default: null,
+    },
+    verificationTokenExpiresAt: {
+       type: Date,
+       default: null,
+    },
+    resetPasswordToken: {
+       type: String,
+       default: null,
+    },
+    resetPasswordExpiresAt: {
+       type: Date,
+       default: null,
     }
 }, {timestamps: true});
 

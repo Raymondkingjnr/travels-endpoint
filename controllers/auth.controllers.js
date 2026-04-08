@@ -186,12 +186,6 @@ export const signIn = async (req, res, next) => {
             throw error;
         }
 
-        if (!user.isVerified) {
-            const error = new Error("Please verify your email before logging in");
-            error.status = 403;
-            throw error;
-        }
-
         const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
         res.cookie("token", token, getCookieOptions());
 

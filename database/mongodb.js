@@ -1,9 +1,5 @@
 import mongoose from 'mongoose';
-import {NODE_ENV, DB_URL} from "../config/env.js";
-
-
-console.log('DB_URL:', DB_URL ? 'exists' : 'MISSING');
-console.log('NODE_ENV:', NODE_ENV);
+import { DB_URL} from "../config/env.js";
 
 if (!DB_URL) {
     throw new Error('MongoDB URL is missing');
